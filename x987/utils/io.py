@@ -1,4 +1,4 @@
-import csv, os, shutil, datetime, pathlib
+﻿import csv, os, shutil, datetime, pathlib
 
 def _ordered_headers(rows):
     if not rows: return []
@@ -36,3 +36,4 @@ def write_latest_alias(actual_path, latest_path):
 
 def timestamp_run_id():
     return datetime.datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+

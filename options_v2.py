@@ -1,4 +1,4 @@
-﻿# FILE: x987/pipeline/options_v2.py
+# FILE: x987/pipeline/options_v2.py
 import re
 from types import SimpleNamespace
 from ..utils import log
@@ -13,7 +13,7 @@ def _is_cayman_r(row):
     return "cayman r" in ymt or (model.lower() == "cayman" and trim.lower() == "r")
 
 def _compile_catalog(cfg):
-    v2 = (cfg.get("options_v2") or {"enabled": True})
+    v2 = (cfg.get("options_v2") or {})
     catalog_cfg = v2.get("catalog") or []
     compiled = []
     for item in catalog_cfg:
@@ -49,7 +49,7 @@ def recompute_options_v2(rows, cfg):
       - top5_options_present: legacy compatible (same as labels)
       - top5_options_count: legacy compatible (len(labels))
     """
-    if not (cfg.get("options_v2") or {"enabled": True}).get("enabled", False):
+    if not (cfg.get("options_v2") or {}).get("enabled", False):
         return rows
 
     log.step("options")
@@ -66,13 +66,13 @@ def recompute_options_v2(rows, cfg):
         total_value = 0
 
         for ent in catalog:
-            # suppress if standard on this trim (e.g., Cayman R â†’ LSD/19" wheels not counted)
+            # suppress if standard on this trim (e.g., Cayman R → LSD/19" wheels not counted)
             if is_r and any("cayman r" == s.lower() for s in ent.standard_on):
                 present = False
             else:
                 present = any(p.search(haystack) for p in ent.patterns)
 
-            # special: 987.2 automatics are PDK â†’ store code 250 even if not text-matched
+            # special: 987.2 automatics are PDK → store code 250 even if not text-matched
             if ent.id == "250":
                 trans = _norm(getattr(r, "transmission_norm", "")) or _norm(getattr(r, "transmission_raw", ""))
                 year  = getattr(r, "year", None)
@@ -99,5 +99,3 @@ def recompute_options_v2(rows, cfg):
 
     log.ok(count=count)
     return rows
-
-

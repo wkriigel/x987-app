@@ -1,4 +1,4 @@
-from ..schema import completeness_score
+﻿from ..schema import completeness_score
 from ..utils import log
 
 def run_dedupe(rows):
@@ -9,3 +9,4 @@ def run_dedupe(rows):
             if not prev or completeness_score(r)>completeness_score(prev): by_vin[r.vin]=r
         else: no_vin.append(r)
     out=list(by_vin.values())+no_vin; log.ok(count=len(out)); return out
+

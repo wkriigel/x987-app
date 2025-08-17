@@ -1,4 +1,4 @@
-from ..schema import Listing
+﻿from ..schema import Listing
 from ..utils import text, log
 import re
 
@@ -22,7 +22,7 @@ def _norm_trans(raw: str | None):
     ):
         return "Automatic"
 
-    return None  # unknown; we’ll still display raw text
+    return None  # unknown; weâ€™ll still display raw text
 
 def _top5_detect(raw_options: list[str]):
     present = set()
@@ -83,10 +83,12 @@ def run_transform(raw_rows, cfg, run_id):
             location=r.get("location"),
         )
 
-        present = _top5_detect(v.raw_options)
+        present = _top5_detect(v.raw_options) if not _v2_enabled else []
         v.top5_options_present = present
         v.top5_options_count = len(present)
         out.append(v)
 
     log.ok(count=len(out))
     return out
+
+

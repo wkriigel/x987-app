@@ -1,4 +1,4 @@
-# FILE: x987/settings.py
+﻿# FILE: x987/settings.py
 # CONTRACT: load human-friendly TOML config from persistent path; create default if missing
 
 import os, pathlib
@@ -84,3 +84,5 @@ def load_config():
     # helpful: include resolved paths in runtime cfg for reference
     cfg["_paths"] = {k: str(v) for k, v in p.items()}
     return cfg
+
+

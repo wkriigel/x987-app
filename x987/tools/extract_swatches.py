@@ -1,4 +1,4 @@
-# tools/extract_swatches.py
+﻿# tools/extract_swatches.py
 # Extract average HEX from a grid of swatches in an image.
 # Produces a JSON you can drop at x987-data/paint/porsche_swatches.json
 import json, math, argparse
@@ -62,3 +62,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
