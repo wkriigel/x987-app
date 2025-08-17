@@ -1,9 +1,16 @@
 ﻿__pycache__/
 *.pyc
 .venv/
-.env
 .vscode/
 x987-data/
 *.csv
+node_modules/
+.ipynb_checkpoints/
+.env
+.env.*
+secrets.*
+config.local.toml
 pr.diff
 .DS_Store
+Thumbs.db
+desktop.ini
