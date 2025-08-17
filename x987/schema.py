@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+﻿from dataclasses import dataclass, field
 from typing import Optional, List
 @dataclass
 class Listing:
@@ -29,3 +29,4 @@ def completeness_score(lst: Listing)->int:
     for f in ["vin","price_usd","mileage","year","model","trim","exterior_color","interior_color","location"]:
         score+=1 if getattr(lst,f) not in (None,"",[]) else 0
     return score
+

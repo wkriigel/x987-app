@@ -1,4 +1,4 @@
-from statistics import median
+﻿from statistics import median
 from collections import defaultdict
 from ..utils import text
 
@@ -13,3 +13,4 @@ def run_baseline(rows, cfg):
         k=_key(r); base=med.get(k); r.baseline_adj_price_usd=base
         r.deal_delta_usd = int(base - r.adj_price_usd) if (base is not None and r.adj_price_usd is not None) else None
     return med
+

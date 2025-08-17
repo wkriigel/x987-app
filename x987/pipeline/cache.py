@@ -1,4 +1,4 @@
-# FILE: x987/pipeline/cache.py
+﻿# FILE: x987/pipeline/cache.py
 import csv, os
 from types import SimpleNamespace
 from ..utils import log
@@ -58,3 +58,4 @@ def load_latest_normalized_rows(cfg):
             rows.append(SimpleNamespace(**obj))
     log.ok(path=latest, count=len(rows))
     return rows
+

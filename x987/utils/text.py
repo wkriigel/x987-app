@@ -1,4 +1,4 @@
-import re, math
+﻿import re, math
 MONO={"black","white","gray","grey","silver"}
 def parse_int(s):
     if s is None: return None
@@ -18,3 +18,4 @@ def mileage_band(m):
     if m<=79999: return "60000-79999"
     if m<=99999: return "80000-99999"
     return "100000+"
+

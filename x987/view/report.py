@@ -1,4 +1,4 @@
-# x987/view/report.py
+﻿# x987/view/report.py
 from rich.table import Table
 from rich.console import Console
 from rich.text import Text
@@ -296,7 +296,7 @@ def abbreviate_transmission(tx: str) -> str:
     if "dct" in s: return "DCT"
     if "cvt" in s: return "CVT"
     if "auto" in s or "at" in s or "automatic" in s: return f"A{g}" if g else "A"
-    return (tx or "").strip().split()[0][:4].upper() or "—"
+    return (tx or "").strip().split()[0][:4].upper() or "â€”"
 
 def render_model_cell(model_text: str, tx_text: str) -> Text:
     cat=_model_category(model_text)
@@ -324,7 +324,7 @@ def render_deal_cell(deal_value: Any, *, is_manual: bool=False) -> Text:
     return Text(s, style=theme_style("text_dim", dim=True) if is_manual else theme_style("text_muted"))
 
 # =========================
-# Colors (Ext/Int) — two 5-char blocks
+# Colors (Ext/Int) â€” two 5-char blocks
 # =========================
 def render_color_swatches_cell(value: str) -> Text:
     s=(value or "").strip()
@@ -339,7 +339,7 @@ def render_color_swatches_cell(value: str) -> Text:
     return t
 
 # =========================
-# Options — smart capitalization; manual rows prepend "Manual"
+# Options â€” smart capitalization; manual rows prepend "Manual"
 # =========================
 _CAP_FIXES=[(r"\bPcm/Nav\b","PCM/Nav"),(r"\bPcm\b","PCM"),(r"\bPdk\b","PDK"),
             (r"\bLsd\b","LSD"),(r"\bBose\b","BOSE"),(r"\bPccb\b","PCCB"),(r"\bPasm\b","PASM")]
@@ -389,7 +389,7 @@ def print_table(rows: Iterable[dict]) -> None:
     table.add_column("Source", no_wrap=True, min_width=8, max_width=10)
 
     for r in rows:
-        deal_raw=pick(r,"Deal Δ ($)","Deal","deal_delta", default="")
+        deal_raw=pick(r,"Deal Î” ($)","Deal","deal_delta", default="")
         price_raw=pick(r,"Price","price")
         miles_raw=pick(r,"Miles","miles")
         model=pick(r,"Year/Model/Trim","model","title", default="")
@@ -424,3 +424,4 @@ if __name__=="__main__":
          "Top Options":"lsd, sport seats, bi-xenon","Source":"cars.com"},
     ]
     print_table(demo)
+

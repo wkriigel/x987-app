@@ -1,4 +1,4 @@
-# FILE: x987/pipeline/rank.py
+﻿# FILE: x987/pipeline/rank.py
 from ..utils import text
 
 def run_rank(rows):
@@ -61,7 +61,7 @@ def run_rank(rows):
         })
 
         view.append({
-            "Deal Δ ($)": (
+            "Deal Î” ($)": (
                 f"+{getattr(r, 'deal_delta_usd')}" if isinstance(getattr(r, "deal_delta_usd", None), (int, float)) 
                 and getattr(r, "deal_delta_usd") >= 0 
                 else (str(getattr(r, "deal_delta_usd")) if getattr(r, "deal_delta_usd", None) is not None else "")
@@ -76,3 +76,4 @@ def run_rank(rows):
         })
 
     return csv, view
+

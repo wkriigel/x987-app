@@ -1,4 +1,4 @@
-# FILE: x987/cli.py
+﻿# FILE: x987/cli.py
 from .settings import load_config, get_paths
 from .doctor import run_doctor
 from .utils.io import timestamp_run_id, safe_write_csv, write_latest_alias
@@ -30,7 +30,7 @@ def main():
         deduped = load_latest_normalized_rows(cfg)
         log.ok(path=os.path.join(paths["NORM_DIR"], "latest.csv"), count=len(deduped))
     else:
-        # Collect → Scrape
+        # Collect â†’ Scrape
         coll = run_collect(cfg)
         scraped = run_scrape(coll, cfg)
 
@@ -42,7 +42,7 @@ def main():
         # Ingest latest raw + manual CSVs
         raw_rows = load_raw_and_manual()
 
-        # Transform → Dedupe
+        # Transform â†’ Dedupe
         transformed = run_transform(raw_rows, cfg, run_id)
         deduped = run_dedupe(transformed)
 
@@ -52,7 +52,7 @@ def main():
     else:
         recompute_top5_options(deduped, cfg)
 
-    # Fair value (dollars model) → Rank
+    # Fair value (dollars model) â†’ Rank
     run_fairvalue(deduped, cfg)
     csv_rows, view_rows = run_rank(deduped)
 
@@ -64,3 +64,4 @@ def main():
     print_table(view_rows)
     log.info(f"Wrote: {norm_out}")
     log.info(f"Latest CSV: {os.path.join(paths['NORM_DIR'], 'latest.csv')}")
+

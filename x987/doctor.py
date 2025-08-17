@@ -1,4 +1,4 @@
-import importlib, pathlib
+﻿import importlib, pathlib
 from .settings import get_paths
 def run_doctor(cfg):
     problems=[]
@@ -9,5 +9,6 @@ def run_doctor(cfg):
         pathlib.Path(paths[k]).mkdir(parents=True,exist_ok=True)
     if not cfg.get("search_urls"): problems.append("config.search_urls is empty.")
     if problems:
-        print("❌ DOCTOR FAIL:"); [print(" -",p) for p in problems]; raise SystemExit(1)
-    print("✅ Doctor OK")
+        print("âŒ DOCTOR FAIL:"); [print(" -",p) for p in problems]; raise SystemExit(1)
+    print("âœ… Doctor OK")
+
