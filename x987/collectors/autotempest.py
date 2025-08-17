@@ -1,18 +1,33 @@
 ﻿from playwright.sync_api import sync_playwright
 
 BLOCK_URL_SUBSTR = [
-    "googletagmanager.com", "google-analytics.com", "doubleclick.net",
-    "facebook.net", "adservice.google", "adsystem", "scorecardresearch",
-    "criteo", "hotjar", "optimizely", "segment.io", "newrelic", "snowplow"
+    "googletagmanager.com",
+    "google-analytics.com",
+    "doubleclick.net",
+    "facebook.net",
+    "adservice.google",
+    "adsystem",
+    "scorecardresearch",
+    "criteo",
+    "hotjar",
+    "optimizely",
+    "segment.io",
+    "newrelic",
+    "snowplow",
 ]
+
 
 def _install_blocking(context, cfg):
     nw = cfg.get("network", {}) or {}
     block_types = set()
-    if nw.get("block_images", True): block_types.add("image")
-    if nw.get("block_media", True): block_types.add("media")
-    if nw.get("block_fonts", True): block_types.add("font")
-    if nw.get("block_stylesheets", True): block_types.add("stylesheet")
+    if nw.get("block_images", True):
+        block_types.add("image")
+    if nw.get("block_media", True):
+        block_types.add("media")
+    if nw.get("block_fonts", True):
+        block_types.add("font")
+    if nw.get("block_stylesheets", True):
+        block_types.add("stylesheet")
     block_analytics = nw.get("block_analytics", True)
 
     def _maybe_block(route):
@@ -25,6 +40,7 @@ def _install_blocking(context, cfg):
 
     context.route("**/*", _maybe_block)
 
+
 def _auto_reveal(page, cfg):
     nw = cfg.get("network", {}) or {}
     max_clicks = int(nw.get("max_clicks_more", 6))
@@ -33,7 +49,7 @@ def _auto_reveal(page, cfg):
     # Try clicking the "More Cars.com Results" button up to N times
     for _ in range(max_clicks):
         try:
-            loc = page.locator(r'text=/More\s+Cars\.com\s+Results/i').first
+            loc = page.locator(r"text=/More\s+Cars\.com\s+Results/i").first
             if loc.count() > 0:
                 loc.click(timeout=1000)
                 page.wait_for_timeout(300)
@@ -53,6 +69,7 @@ def _auto_reveal(page, cfg):
             break
         last_count = count
 
+
 def _collect_from_page(page):
     # Collect Cars.com listing links
     links = page.locator('a[href*="cars.com/vehicledetail"]')
@@ -66,6 +83,7 @@ def _collect_from_page(page):
     except Exception:
         pass
     return [{"source": "cars.com", "listing_url": u} for u in urls]
+
 
 def collect_autotempest(urls, cfg):
     out = []

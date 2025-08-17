@@ -1,12 +1,15 @@
 ﻿# FILE: x987/ingest.py
 # CONTRACT: read latest raw scrape CSV and any manual CSVs; return list[dict] with best-effort coercions
 
-import csv, pathlib, ast
+import csv
+import pathlib
+import ast
 from .settings import get_paths
 from .utils import text
 
+
 def _read_csv(fp: pathlib.Path):
-    rows=[]
+    rows = []
     try:
         with open(fp, "r", encoding="utf-8", newline="") as f:
             for row in csv.DictReader(f):
@@ -15,9 +18,10 @@ def _read_csv(fp: pathlib.Path):
         pass
     return rows
 
+
 def _coerce_row(r: dict) -> dict:
     # Best-effort numeric coercions
-    for k in ("price_usd","mileage","year"):
+    for k in ("price_usd", "mileage", "year"):
         if r.get(k) not in (None, ""):
             v = text.parse_int(r.get(k))
             r[k] = int(v) if v is not None else None
@@ -51,6 +55,7 @@ def _coerce_row(r: dict) -> dict:
         r["source"] = r["Source"]
 
     return r
+
 
 def load_raw_and_manual():
     paths = get_paths()

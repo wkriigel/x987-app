@@ -1,37 +1,49 @@
-﻿# FILE: x987/pipeline/cache.py
-import csv, os
+# FILE: x987/pipeline/cache.py
+import csv
+import os
 from types import SimpleNamespace
 from ..utils import log
 from ..settings import get_paths
 
 _NUMERIC_INT = {
-    "price_usd", "mileage", "year", "deal_delta_usd", "fair_value_usd",
-    "top5_options_count"
+    "price_usd",
+    "mileage",
+    "year",
+    "deal_delta_usd",
+    "fair_value_usd",
+    "top5_options_count",
 }
 
 _LIST_SEMI = {
     "top5_options_present",  # "A; B; C"
-    "raw_options",           # "line1; line2"
+    "raw_options",  # "line1; line2"
 }
 
+
 def _to_int(v):
-    if v is None or v == "": return None
+    if v is None or v == "":
+        return None
     try:
         return int(str(v).replace(",", ""))
     except Exception:
         return None
 
+
 def _split_semi(v):
-    if not v: return []
+    if not v:
+        return []
     parts = [p.strip() for p in str(v).split(";")]
     return [p for p in parts if p]
+
 
 def load_latest_normalized_rows(cfg):
     paths = get_paths()
     latest = os.path.join(paths["NORM_DIR"], "latest.csv")
     if not os.path.isfile(latest):
-        raise FileNotFoundError(f"No latest normalized CSV at {latest}. "
-                                f"Run once with dev.use_cached_normalized=false to create it.")
+        raise FileNotFoundError(
+            f"No latest normalized CSV at {latest}. "
+            f"Run once with dev.use_cached_normalized=false to create it."
+        )
     rows = []
     with open(latest, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -58,4 +70,3 @@ def load_latest_normalized_rows(cfg):
             rows.append(SimpleNamespace(**obj))
     log.ok(path=latest, count=len(rows))
     return rows
-

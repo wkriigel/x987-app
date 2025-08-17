@@ -31,3 +31,15 @@ x987-data/*
 *.secret
 secrets.*
 config.local.toml
+
+# local artifacts
+pr.diff
+__pycache__/
+*.pyc
+
+# local scratch
+pr.diff
+*.toml.off
+*.toml.bak
+__pycache__/
+*.py[cod]
