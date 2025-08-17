@@ -1,22 +1,2 @@
-# Normalize text files to LF in the repo
-* text=auto eol=lf
-
-# Preserve binary
-*.png binary
-*.jpg binary
-*.jpeg binary
-*.gif binary
-*.ico binary
-*.pdf binary
-*.mp3 binary
-*.wav binary
-
-# Explicit text types
-*.py text
-*.toml text
-*.md text
-*.yml text
-*.yaml text
-*.json text
-*.ps1 text
-*.bat text
+﻿* text=auto eol=lf
+*.ps1 text eol=lf
