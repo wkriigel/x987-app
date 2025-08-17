@@ -246,3 +246,4 @@ def scrape_cars_com(urls, cfg):
         browser.close()
     return rows
 
+
