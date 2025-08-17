@@ -20,3 +20,4 @@
 *.json text
 *.ps1 text
 *.bat text
+*.csv text
