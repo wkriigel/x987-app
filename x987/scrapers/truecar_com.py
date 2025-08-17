@@ -8,7 +8,7 @@ import re
 from typing import Any, Dict
 
 _PRICE = re.compile(r"\$[\s,]*([0-9][0-9,]+)")
-_MILES = re.compile(r"([0-9][0-9,]+)\s*miles", re.I)
+_MILES = re.compile(r"([0-9][0-9,]+)\s*(?:miles|mi)\b", re.I)
 _TITLE = re.compile(r"(\d{4})\s+Porsche\s+(Cayman|Boxster)\s*(S|Spyder)?", re.I)
 _TRANS = re.compile(r"\b(Manual|PDK|Automatic|Auto)\b", re.I)
 _VIN = re.compile(r"\b([A-HJ-NPR-Z0-9]{17})\b")
@@ -57,3 +57,4 @@ def _norm_trans(s: str | None) -> str | None:
     if "manual" in v: return "Manual"
     if "auto" in v: return "Automatic"
     return s
+
