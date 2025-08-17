@@ -196,8 +196,7 @@ def scrape_cars_com(urls, cfg):
                 try:
                     # inside cars_com.py where you compile option patterns:
                                         op2 = (cfg.get("options_v2") or {}).get("catalog", [])  # v2
-                    pats = []
-                                        for arr in op1.values():
+                                        pats = []
                         for pat in (arr or []):
                             try: pats.append(re.compile(pat, re.I))
                             except re.error: pass
@@ -245,6 +244,7 @@ def scrape_cars_com(urls, cfg):
 
         browser.close()
     return rows
+
 
 
 
