@@ -16,3 +16,19 @@ def test_parse_truecar_basic():
     assert data["price"] == 49973
     assert data["miles"] == 71161
     assert data["transmission"] == "PDK"
+
+def test_parse_truecar_mi_and_pdk_automatic():
+    html = """
+    <div class="card">
+      <h2>2010 Porsche Boxster</h2>
+      <div class="price">$27,500</div>
+      <div>87,345 mi • 7-Speed PDK Automatic</div>
+    </div>
+    """
+    data = parse(html)
+    assert data["year"] == 2010
+    assert data["model"] == "Boxster"
+    assert data["trim"] is None
+    assert data["price"] == 27500
+    assert data["miles"] == 87345
+    assert data["transmission"] == "PDK"
