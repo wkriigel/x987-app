@@ -1,4 +1,4 @@
-﻿# FILE: x987/cli.py
+# FILE: x987/cli.py
 from .settings import load_config, get_paths
 from .doctor import run_doctor
 from .utils.io import timestamp_run_id, safe_write_csv, write_latest_alias
@@ -12,10 +12,12 @@ from .pipeline.rank import run_rank
 from .view.report import print_table
 from .ingest import load_raw_and_manual
 from .pipeline.cache import load_latest_normalized_rows
+
 # options
 from .pipeline.options_v2 import recompute_options_v2
 from .pipeline.options import recompute_top5_options
 import os
+
 
 def main():
     cfg = load_config()
@@ -64,4 +66,3 @@ def main():
     print_table(view_rows)
     log.info(f"Wrote: {norm_out}")
     log.info(f"Latest CSV: {os.path.join(paths['NORM_DIR'], 'latest.csv')}")
-

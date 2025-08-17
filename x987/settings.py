@@ -1,7 +1,8 @@
-﻿# FILE: x987/settings.py
+# FILE: x987/settings.py
 # CONTRACT: load human-friendly TOML config from persistent path; create default if missing
 
-import os, pathlib
+import os
+import pathlib
 
 APP = "x987"
 
@@ -39,11 +40,13 @@ cars_com=true
 carvana_com=false
 """
 
+
 def user_dir() -> pathlib.Path:
     appdata = os.getenv("APPDATA")
     base = pathlib.Path(appdata) / APP if appdata else pathlib.Path.home() / ("." + APP)
     base.mkdir(parents=True, exist_ok=True)
     return base
+
 
 def get_paths():
     code = pathlib.Path(__file__).resolve().parents[1]
@@ -62,15 +65,19 @@ def get_paths():
         "META_DIR": data / "meta",
     }
 
+
 def _read_toml(fp: pathlib.Path):
     try:
         import tomllib  # Py 3.11+
+
         with open(fp, "rb") as f:
             return tomllib.load(f)
     except Exception:
         import tomli
+
         with open(fp, "rb") as f:
             return tomli.load(f)
+
 
 def load_config():
     p = get_paths()
@@ -84,5 +91,3 @@ def load_config():
     # helpful: include resolved paths in runtime cfg for reference
     cfg["_paths"] = {k: str(v) for k, v in p.items()}
     return cfg
-
-

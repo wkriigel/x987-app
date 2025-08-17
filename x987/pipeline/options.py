@@ -1,7 +1,9 @@
 ﻿# FILE: x987/pipeline/options.py
 """
-V2 is the default. This module forwards legacy calls to the v2 implementation
-so existing imports keep working.
+Forward legacy API to v2 implementation.
 """
-from .options_v2 import recompute_options_v2 as recompute_top5_options
+from .options_v2 import recompute_options_v2
 
+def recompute_top5_options(rows, cfg):
+    """Legacy name kept for backward compatibility; delegates to v2."""
+    return recompute_options_v2(rows, cfg)

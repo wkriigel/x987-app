@@ -1,19 +1,22 @@
-﻿# FILE: x987/pipeline/options_v2.py
+# FILE: x987/pipeline/options_v2.py
 import re
 from types import SimpleNamespace
 from ..utils import log
 
-def _norm(s): 
+
+def _norm(s):
     return (s or "").strip()
+
 
 def _is_cayman_r(row):
     model = _norm(getattr(row, "model", ""))
-    trim  = _norm(getattr(row, "trim", ""))
-    ymt   = f"{model} {trim}".strip().lower()
+    trim = _norm(getattr(row, "trim", ""))
+    ymt = f"{model} {trim}".strip().lower()
     return "cayman r" in ymt or (model.lower() == "cayman" and trim.lower() == "r")
 
+
 def _compile_catalog(cfg):
-    v2 = (cfg.get("options_v2") or {"enabled": True})
+    v2 = cfg.get("options_v2") or {"enabled": True}
     catalog_cfg = v2.get("catalog") or []
     compiled = []
     for item in catalog_cfg:
@@ -30,15 +33,22 @@ def _compile_catalog(cfg):
             except re.error:
                 # ignore malformed pattern
                 pass
-        compiled.append(SimpleNamespace(
-            id=cid, display=display, value=value, codes_alias=codes_alias,
-            standard_on=standard_on, patterns=pats,
-            # hide PDK from Top Options column; we still store its code
-            show_in_view=(cid != "250")
-        ))
+        compiled.append(
+            SimpleNamespace(
+                id=cid,
+                display=display,
+                value=value,
+                codes_alias=codes_alias,
+                standard_on=standard_on,
+                patterns=pats,
+                # hide PDK from Top Options column; we still store its code
+                show_in_view=(cid != "250"),
+            )
+        )
     # deterministic order: by value desc, then display asc
     compiled.sort(key=lambda x: (-x.value, x.display.lower()))
     return compiled
+
 
 def recompute_options_v2(rows, cfg):
     """
@@ -74,8 +84,10 @@ def recompute_options_v2(rows, cfg):
 
             # special: 987.2 automatics are PDK â†’ store code 250 even if not text-matched
             if ent.id == "250":
-                trans = _norm(getattr(r, "transmission_norm", "")) or _norm(getattr(r, "transmission_raw", ""))
-                year  = getattr(r, "year", None)
+                trans = _norm(getattr(r, "transmission_norm", "")) or _norm(
+                    getattr(r, "transmission_raw", "")
+                )
+                year = getattr(r, "year", None)
                 if year and 2009 <= int(year) <= 2012 and trans.lower() == "automatic":
                     present = True
 
@@ -99,5 +111,3 @@ def recompute_options_v2(rows, cfg):
 
     log.ok(count=count)
     return rows
-
-

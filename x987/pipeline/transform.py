@@ -1,12 +1,19 @@
-﻿from ..schema import Listing
+from ..schema import Listing
 from ..utils import text, log
 import re
 
 # Expand top-5 matching tokens (simple substrings)
 TOP5 = [
-    "sport chrono", "pasm", "pse", "sport exhaust",
-    "limited slip", "lsd", "sport seats", "adaptive sport seats"
+    "sport chrono",
+    "pasm",
+    "pse",
+    "sport exhaust",
+    "limited slip",
+    "lsd",
+    "sport seats",
+    "adaptive sport seats",
 ]
+
 
 def _norm_trans(raw: str | None):
     s = (raw or "").lower()
@@ -16,13 +23,13 @@ def _norm_trans(raw: str | None):
         return "Manual"
 
     # Automatic / PDK / Tiptronic patterns
-    if (
-        re.search(r"\b(pdk|doppelkupplung|tiptronic|automatic|auto|a/?t)\b", s)
-        or (re.search(r"\b7[-\s]?speed\b", s) and "manual" not in s)
+    if re.search(r"\b(pdk|doppelkupplung|tiptronic|automatic|auto|a/?t)\b", s) or (
+        re.search(r"\b7[-\s]?speed\b", s) and "manual" not in s
     ):
         return "Automatic"
 
-    return None  # unknown; weâ€™ll still display raw text
+    return None  # unknown; weÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ll still display raw text
+
 
 def _top5_detect(raw_options: list[str]):
     present = set()
@@ -41,12 +48,14 @@ def _top5_detect(raw_options: list[str]):
                 present.add("Sport Seats")
     return sorted(present)
 
+
 def _norm_trim(trim: str | None):
     if not trim:
         return None
     t = trim.strip()
     # Common cases: "s" -> "S"; otherwise keep original (some trims contain words)
     return "S" if t.lower() == "s" else t
+
 
 def run_transform(raw_rows, cfg, run_id):
     log.step("transform")
@@ -83,12 +92,10 @@ def run_transform(raw_rows, cfg, run_id):
             location=r.get("location"),
         )
 
-        present = _top5_detect(v.raw_options) if not _v2_enabled else []
+        present = _top5_detect(v.raw_options)
         v.top5_options_present = present
         v.top5_options_count = len(present)
         out.append(v)
 
     log.ok(count=len(out))
     return out
-
-
