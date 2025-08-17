@@ -195,21 +195,17 @@ def scrape_cars_com(urls, cfg):
                 opt_lines = set()
                 try:
                     # inside cars_com.py where you compile option patterns:
-                                        op2 = (cfg.get("options_v2") or {}).get("catalog", [])  # v2
-                                        pats = []
-                        for pat in (arr or []):
-                            try: pats.append(re.compile(pat, re.I))
-                            except re.error: pass
-                    # v2 patterns
+                    op2 = (cfg.get("options_v2") or {}).get("catalog", [])  # v2
+                    pats = []
                     for item in op2:
                         for pat in (item.get("synonyms") or []):
                             try: pats.append(re.compile(pat, re.I))
                             except re.error: pass
-                    # Fallback simple keywords so we don't regress if option_patterns is empty
+                    # Fallback simple keywords so we don't regress if catalog is empty
                     if not pats:
                         for kw in ["sport chrono", "pasm", "sport exhaust", "pse", "limited slip", "lsd", "sport seats", "adaptive sport seats"]:
                             pats.append(re.compile(re.escape(kw), re.I))
-
+                
                     for line in body.splitlines():
                         s = line.strip()
                         if not s:
@@ -244,6 +240,7 @@ def scrape_cars_com(urls, cfg):
 
         browser.close()
     return rows
+
 
 
 
