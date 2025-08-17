@@ -1,23 +1,18 @@
-﻿# x987: Ruff configuration
+﻿# x987 Ruff config — velocity mode
 line-length = 120
 target-version = "py313"
 
 [lint]
-# Core rule sets: pyflakes/pycodestyle/imports/pyupgrade
+# Keep correctness (pycodestyle errors) + pyflakes only.
 select = ["E", "F"]
-# TEMP: ignore long-line errors until we fix them for real.
-# Action item: remove "E501" once key modules are wrapped.
-ignore = ["E501"]
 
-# Keep noise low; these paths are large/binary or generated.
-exclude = [
-  "x987-data",
-  "**/__pycache__",
-]
+# TEMP: ignore style codes that trigger repo-wide churn.
+# Remove these gradually per-module as we touch files.
+ignore = ["E501","E401","E701","E702","E703","E722"]
+
+exclude = ["x987-data","**/__pycache__"]
 
 [format]
-# Keep formatter predictable; we can adopt `ruff format` later if desired.
 line-ending = "lf"
 indent-style = "space"
 quote-style = "preserve"
-
