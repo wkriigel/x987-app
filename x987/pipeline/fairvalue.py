@@ -1,4 +1,4 @@
-# FILE: x987/pipeline/fairvalue.py
+﻿# FILE: x987/pipeline/fairvalue.py
 from ..utils import log
 
 def _cfg(d, key, default):
@@ -63,7 +63,7 @@ def _color_adj(fv_cfg, row):
     return int_bonus + ext_bonus
 
 def _options_total(row, fv_cfg):
-    # Prefer v2 option dollars if present, else fallback to v1 count * per-option value
+    # Prefer v2 option dollars if present, else fallback to legacy count if v2 labels missing (rare)
     v2_total = getattr(row, "option_value_usd_total", None)
     if v2_total is not None:
         try: return int(v2_total)
@@ -115,3 +115,4 @@ def run_fairvalue(rows, cfg):
 
     log.ok(count=count)
     return rows
+
