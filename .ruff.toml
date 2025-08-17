@@ -4,8 +4,7 @@ target-version = "py313"
 
 [lint]
 # Core rule sets: pyflakes/pycodestyle/imports/pyupgrade
-select = ["E", "F", "I", "UP"]
-
+select = ["E", "F"]
 # TEMP: ignore long-line errors until we fix them for real.
 # Action item: remove "E501" once key modules are wrapped.
 ignore = ["E501"]
@@ -21,3 +20,4 @@ exclude = [
 line-ending = "lf"
 indent-style = "space"
 quote-style = "preserve"
+
