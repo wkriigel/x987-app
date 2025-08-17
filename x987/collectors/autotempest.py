@@ -1,4 +1,4 @@
-from playwright.sync_api import sync_playwright
+﻿from playwright.sync_api import sync_playwright
 
 BLOCK_URL_SUBSTR = [
     "googletagmanager.com",
@@ -102,3 +102,4 @@ def collect_autotempest(urls, cfg):
 
         browser.close()
     return out
+

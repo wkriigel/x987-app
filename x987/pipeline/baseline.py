@@ -1,4 +1,4 @@
-from statistics import median
+﻿from statistics import median
 from collections import defaultdict
 from ..utils import text
 
@@ -23,3 +23,4 @@ def run_baseline(rows, cfg):
             else None
         )
     return med
+

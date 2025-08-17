@@ -1,4 +1,4 @@
-# FILE: x987/cli.py
+﻿# FILE: x987/cli.py
 from .settings import load_config, get_paths
 from .doctor import run_doctor
 from .utils.io import timestamp_run_id, safe_write_csv, write_latest_alias
@@ -66,3 +66,4 @@ def main():
     print_table(view_rows)
     log.info(f"Wrote: {norm_out}")
     log.info(f"Latest CSV: {os.path.join(paths['NORM_DIR'], 'latest.csv')}")
+

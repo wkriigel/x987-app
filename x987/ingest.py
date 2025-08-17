@@ -1,4 +1,4 @@
-# FILE: x987/ingest.py
+﻿# FILE: x987/ingest.py
 # CONTRACT: read latest raw scrape CSV and any manual CSVs; return list[dict] with best-effort coercions
 
 import csv
@@ -75,3 +75,4 @@ def load_raw_and_manual():
     # Coerce fields
     all_rows = [_coerce_row(r) for r in all_rows]
     return all_rows
+

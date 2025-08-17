@@ -41,3 +41,5 @@ __pycache__/
 pr.diff
 *.toml.off
 *.toml.bak
+__pycache__/
+*.py[cod]
