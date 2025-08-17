@@ -1,4 +1,4 @@
-import csv
+﻿import csv
 import os
 import shutil
 import datetime
@@ -61,4 +61,5 @@ def write_latest_alias(actual_path, latest_path):
 
 
 def timestamp_run_id():
-    return datetime.datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    return datetime.datetime.now(datetime.UTC).strftime("%Y%m%d_%H%M%S")
+

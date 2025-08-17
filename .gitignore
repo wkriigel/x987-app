@@ -37,3 +37,7 @@ pr.diff
 __pycache__/
 *.pyc
 
+# local scratch
+pr.diff
+*.toml.off
+*.toml.bak
