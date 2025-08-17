@@ -1,4 +1,4 @@
-# FILE: x987/scrapers/cars_com.py
+﻿# FILE: x987/scrapers/cars_com.py
 from playwright.sync_api import sync_playwright
 import re
 
@@ -42,7 +42,7 @@ def _none_if_na(s: str | None):
     if not s: 
         return None
     t = re.sub(r"\s+", "", s).lower()
-    if t in {"-", "–", "—", "n/a", "na", "notspecified"}:
+    if t in {"-", "â€“", "â€”", "n/a", "na", "notspecified"}:
         return None
     return s.strip()
 
@@ -135,14 +135,14 @@ def scrape_cars_com(urls, cfg):
                 # Transmission (raw)
                 trans = _find(r"Transmission\s*:?\s*([A-Za-z0-9\- /]+)", body) or _find(r"([AP]utomatic|PDK|Tiptronic|Manual)", body)
 
-                # Colors – DOM first
+                # Colors â€“ DOM first
                 ext_dom = _none_if_na(_dd_for(page, "Exterior color"))
                 int_dom = _none_if_na(_dd_for(page, "Interior color"))
 
                 extc = _norm_color_phrase(_clean_color(ext_dom))
                 intc = _norm_color_phrase(_clean_color(int_dom))
 
-                # Fallbacks if DOM didn’t yield values (keep our previous heuristics)
+                # Fallbacks if DOM didnâ€™t yield values (keep our previous heuristics)
                 if not extc or not intc:
                     lab_ext = _find(r"Exterior\s*color\s*:?\s*([A-Za-z \-]+)", body)
                     lab_int = _find(r"Interior\s*color\s*:?\s*([A-Za-z \-]+)", body)
@@ -195,11 +195,9 @@ def scrape_cars_com(urls, cfg):
                 opt_lines = set()
                 try:
                     # inside cars_com.py where you compile option patterns:
-                    op1 = (cfg.get("option_patterns") or {})              # v1
-                    op2 = (cfg.get("options_v2") or {}).get("catalog", [])  # v2
+                                        op2 = (cfg.get("options_v2") or {}).get("catalog", [])  # v2
                     pats = []
-                    # v1 patterns
-                    for arr in op1.values():
+                                        for arr in op1.values():
                         for pat in (arr or []):
                             try: pats.append(re.compile(pat, re.I))
                             except re.error: pass
@@ -247,3 +245,4 @@ def scrape_cars_com(urls, cfg):
 
         browser.close()
     return rows
+
