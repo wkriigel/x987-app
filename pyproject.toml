@@ -1,0 +1,15 @@
+﻿[project]
+name = "x987-app"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "pydantic>=2,<3",
+  "rapidfuzz>=3,<4",
+  "tomli>=2,<3",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pyright]
+typeCheckingMode = "basic"
