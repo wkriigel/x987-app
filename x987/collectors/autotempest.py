@@ -82,7 +82,7 @@ def _collect_from_page(page):
             if "cars.com" in target and "vehicledetail" in target:
                 urls.add(("cars.com", target.split("?")[0]))
             elif "truecar.com" in target:
-                urls.add(("truecar", target.split("?")[0]))
+                urls.add(("truecar.com", target.split("?")[0]))
     except Exception:
         pass
     return [{"source": s, "listing_url": u} for (s, u) in urls]
@@ -103,6 +103,7 @@ def collect_autotempest(urls, cfg):
 
         browser.close()
     return out
+
 
 
 

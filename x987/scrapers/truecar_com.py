@@ -83,7 +83,7 @@ def scrape_truecar(urls, cfg):
                 page.goto(url, timeout=timeout_ms, wait_until="domcontentloaded")
                 body = page.inner_text("body")
                 data = parse(body)
-                data["source"] = "truecar"
+                data["source"] = "truecar.com"
                 data["listing_url"] = url
                 items.append(data)
             except Exception:
@@ -119,5 +119,6 @@ def _norm_trans2(s: str | None) -> str | None:
     if "auto" in v or "automatic" in v or "7-speed automatic" in v or "7 speed automatic" in v:
         return "Automatic"
     return s
+
 
 

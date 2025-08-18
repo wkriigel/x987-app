@@ -27,7 +27,7 @@ def main():
         entries = _collect_from_page(page)
         browser.close()
 
-    urls = [e.get("listing_url") for e in entries if e.get("source") == "truecar" and e.get("listing_url")]
+    urls = [e.get("listing_url") for e in entries if e.get("source") == "truecar.com" and e.get("listing_url")]
     urls = urls[: args.limit]
     rows = truecar_com.scrape_truecar(urls, {"network": {"timeout_ms": args.timeout_ms}}) if urls else []
 
@@ -43,4 +43,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
