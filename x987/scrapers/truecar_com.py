@@ -119,3 +119,5 @@ def _norm_trans2(s: str | None) -> str | None:
     if "auto" in v or "automatic" in v or "7-speed automatic" in v or "7 speed automatic" in v:
         return "Automatic"
     return s
+
+
