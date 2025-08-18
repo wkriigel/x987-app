@@ -21,6 +21,9 @@ def main():
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url, timeout=args.timeout_ms, wait_until="domcontentloaded")
+        for _ in range(8):
+            page.mouse.wheel(0, 4000)
+            page.wait_for_timeout(400)
         entries = _collect_from_page(page)
         browser.close()
 
@@ -40,3 +43,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

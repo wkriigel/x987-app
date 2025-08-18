@@ -58,27 +58,34 @@ def _auto_reveal(page, cfg):
         last_count = count
 
 def _collect_from_page(page):
-    # Collect Cars.com + TrueCar listing links
+    # Collect Cars.com + TrueCar listing links; handle AutoTempest redirect wrappers
     urls = set()
     try:
-        # Cars.com
-        links1 = page.locator('a[href*="cars.com/vehicledetail"]')
-        n1 = links1.count()
-        for i in range(n1):
-            href = links1.nth(i).get_attribute("href")
-            if href and "cars.com/vehicledetail" in href:
-                urls.add(("cars.com", href.split("?")[0]))
-        # TrueCar
-        links2 = page.locator('a[href*="truecar.com/used-cars-for-sale/listing"]')
-        n2 = links2.count()
-        for i in range(n2):
-            href = links2.nth(i).get_attribute("href")
-            if href and "/used-cars-for-sale/listing" in href:
-                urls.add(("truecar", href.split("?")[0]))
+        # Broader selector so we catch both direct and wrapped links
+        links = page.locator('a[href*="cars.com"], a[href*="truecar"]')
+        n = links.count()
+        from urllib.parse import urlparse, parse_qs, unquote
+        for i in range(n):
+            href = links.nth(i).get_attribute("href")
+            if not href:
+                continue
+            target = href
+            # AutoTempest often wraps with /redirect?...&to=<encoded target>
+            if "redirect" in href and ("to=" in href or "url=" in href):
+                try:
+                    qs = urlparse(href).query
+                    qd = parse_qs(qs)
+                    t = (qd.get("to") or qd.get("url") or [href])[0]
+                    target = unquote(t)
+                except Exception:
+                    target = href
+            if "cars.com" in target and "vehicledetail" in target:
+                urls.add(("cars.com", target.split("?")[0]))
+            elif "truecar.com" in target:
+                urls.add(("truecar", target.split("?")[0]))
     except Exception:
         pass
     return [{"source": s, "listing_url": u} for (s, u) in urls]
-
 def collect_autotempest(urls, cfg):
     out = []
     with sync_playwright() as p:
@@ -96,6 +103,7 @@ def collect_autotempest(urls, cfg):
 
         browser.close()
     return out
+
 
 
 
