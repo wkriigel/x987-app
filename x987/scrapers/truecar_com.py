@@ -67,3 +67,27 @@ def _norm_trans(s: str | None) -> str | None:
         return "Automatic"
     return s
 
+def scrape_truecar(urls, cfg):
+    """
+    Thin wrapper: visit each TrueCar URL, parse body text, and return normalized rows.
+    Imports are local to avoid test-time dependency issues.
+    """
+    from playwright.sync_api import sync_playwright
+    items = []
+    timeout_ms = int((cfg or {}).get("network", {}).get("timeout_ms", 15000))
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
+        for url in urls:
+            try:
+                page.goto(url, timeout=timeout_ms, wait_until="domcontentloaded")
+                body = page.inner_text("body")
+                data = parse(body)
+                data["source"] = "truecar"
+                data["listing_url"] = url
+                items.append(data)
+            except Exception:
+                # keep going; collector provides many URLs and some may be dead
+                continue
+        browser.close()
+    return items
