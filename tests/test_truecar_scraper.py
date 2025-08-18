@@ -59,3 +59,18 @@ def test_parse_truecar_labeled_mileage_with_period():
     assert data["model"] == "Boxster"
     assert data["price"] == 27500
     assert data["miles"] == 87345
+def test_parse_truecar_tiptronic_maps_to_automatic():
+    from x987.scrapers.truecar_com import parse
+    html = """
+    <div>
+      <h1>2008 Porsche Cayman</h1>
+      <div>$29,500</div>
+      <div>65,100 miles • 5-Speed Tiptronic S</div>
+    </div>
+    """
+    data = parse(html)
+    assert data["year"] == 2008
+    assert data["model"] == "Cayman"
+    assert data["price"] == 29500
+    assert data["miles"] == 65100
+    assert data["transmission"] == "Automatic"
