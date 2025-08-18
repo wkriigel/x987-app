@@ -9,10 +9,14 @@ BLOCK_URL_SUBSTR = [
 def _install_blocking(context, cfg):
     nw = cfg.get("network", {}) or {}
     block_types = set()
-    if nw.get("block_images", True):`n        block_types.add("image")
-    if nw.get("block_media", True):`n        block_types.add("media")
-    if nw.get("block_fonts", True):`n        block_types.add("font")
-    if nw.get("block_stylesheets", True):`n        block_types.add("stylesheet")
+    if nw.get("block_images", True):
+        block_types.add("image")
+    if nw.get("block_media", True):
+        block_types.add("media")
+    if nw.get("block_fonts", True):
+        block_types.add("font")
+    if nw.get("block_stylesheets", True):
+        block_types.add("stylesheet")
     block_analytics = nw.get("block_analytics", True)
 
     def _maybe_block(route):
@@ -92,6 +96,7 @@ def collect_autotempest(urls, cfg):
 
         browser.close()
     return out
+
 
 
 
