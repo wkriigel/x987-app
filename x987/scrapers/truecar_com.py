@@ -12,15 +12,17 @@ _MILES = re.compile(r"([0-9][0-9,]+)\s*(?:miles|mi)\b", re.I)
 _TITLE = re.compile(r"(\d{4})\s+Porsche\s+(Cayman|Boxster)\s*(S|Spyder)?", re.I)
 _TRANS = re.compile(r"\b(Manual|PDK|Automatic|Auto)\b", re.I)
 _VIN = re.compile(r"\b([A-HJ-NPR-Z0-9]{17})\b")
+_LOCATION = re.compile(r"(?:Location\s*:?\s*)?([A-Za-z .]+,\s*[A-Z]{2})\b")
 
 def _to_int(s: str | None) -> int | None:
-    if not s: return None
+    if not s:
+        return None
     return int(s.replace(",", ""))
 
 def parse(html: str) -> Dict[str, Any]:
     """
     Returns a normalized dict with keys:
-      price, miles, year, model, trim, transmission, vin
+      price, miles, year, model, trim, transmission, vin, location
     Missing fields are None when not found.
     """
     price = _to_int(_first(_PRICE, html))
@@ -28,6 +30,7 @@ def parse(html: str) -> Dict[str, Any]:
     year, model, trim = _title_parts(html)
     trans = _first(_TRANS, html)
     vin = _first(_VIN, html)
+    loc = _first(_LOCATION, html)
     return {
         "price": price,
         "miles": miles,
@@ -36,6 +39,7 @@ def parse(html: str) -> Dict[str, Any]:
         "trim": _cap(trim),
         "transmission": _norm_trans(trans),
         "vin": vin,
+        "location": loc,
     }
 
 def _first(rx: re.Pattern[str], text: str) -> str | None:
@@ -44,17 +48,21 @@ def _first(rx: re.Pattern[str], text: str) -> str | None:
 
 def _title_parts(html: str) -> tuple[str | None, str | None, str | None]:
     m = _TITLE.search(html)
-    if not m: return (None, None, None)
+    if not m:
+        return (None, None, None)
     return m.group(1), m.group(2), (m.group(3) or None)
 
 def _cap(s: str | None) -> str | None:
     return s.capitalize() if isinstance(s, str) else None
 
 def _norm_trans(s: str | None) -> str | None:
-    if not s: return None
+    if not s:
+        return None
     v = s.lower()
-    if "pdk" in v: return "PDK"
-    if "manual" in v: return "Manual"
-    if "auto" in v: return "Automatic"
+    if "pdk" in v:
+        return "PDK"
+    if "manual" in v:
+        return "Manual"
+    if "auto" in v:
+        return "Automatic"
     return s
-

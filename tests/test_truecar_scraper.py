@@ -32,3 +32,16 @@ def test_parse_truecar_mi_and_pdk_automatic():
     assert data["price"] == 27500
     assert data["miles"] == 87345
     assert data["transmission"] == "PDK"
+def test_parse_truecar_vin_and_location():
+    from x987.scrapers.truecar_com import parse
+    html = """
+    <div>
+      <h1>2011 Porsche Cayman S</h1>
+      <div class="price">$49,973</div>
+      <div>71,161 miles • 7-Speed PDK Automatic</div>
+      <div>VIN: WP0AB2A88BU780243 · Location: Denver, CO</div>
+    </div>
+    """
+    data = parse(html)
+    assert data["vin"] == "WP0AB2A88BU780243"
+    assert data["location"] == "Denver, CO"
