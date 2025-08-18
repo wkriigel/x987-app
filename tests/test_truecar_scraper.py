@@ -45,3 +45,17 @@ def test_parse_truecar_vin_and_location():
     data = parse(html)
     assert data["vin"] == "WP0AB2A88BU780243"
     assert data["location"] == "Denver, CO"
+def test_parse_truecar_labeled_mileage_with_period():
+    from x987.scrapers.truecar_com import parse
+    html = """
+    <div>
+      <h1>2010 Porsche Boxster</h1>
+      <div class="price">From $27,500</div>
+      <div>Mileage: 87,345 mi.</div>
+    </div>
+    """
+    data = parse(html)
+    assert data["year"] == 2010
+    assert data["model"] == "Boxster"
+    assert data["price"] == 27500
+    assert data["miles"] == 87345
