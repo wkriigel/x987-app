@@ -1,4 +1,4 @@
-from playwright.sync_api import sync_playwright
+﻿from playwright.sync_api import sync_playwright
 
 BLOCK_URL_SUBSTR = [
     "googletagmanager.com", "google-analytics.com", "doubleclick.net",
@@ -48,26 +48,32 @@ def _auto_reveal(page, cfg):
         page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
         page.wait_for_timeout(300)
         # If no new links appear, stop
-        count = page.locator('a[href*="cars.com/vehicledetail"]').count()
+        count = page.locator('a[href*="cars.com/vehicledetail"], a[href*="truecar.com/used-cars-for-sale/listing"]').count()
         if count == last_count:
             break
         last_count = count
 
 def _collect_from_page(page):
-    # Collect Cars.com listing links
-    links = page.locator('a[href*="cars.com/vehicledetail"]')
+    # Collect Cars.com + TrueCar listing links
     urls = set()
     try:
-        n = links.count()
-        for i in range(n):
-            href = links.nth(i).get_attribute("href")
+        # Cars.com
+        links1 = page.locator('a[href*="cars.com/vehicledetail"]')
+        n1 = links1.count()
+        for i in range(n1):
+            href = links1.nth(i).get_attribute("href")
             if href and "cars.com/vehicledetail" in href:
-                urls.add(href.split("?")[0])
+                urls.add(("cars.com", href.split("?")[0]))
+        # TrueCar
+        links2 = page.locator('a[href*="truecar.com/used-cars-for-sale/listing"]')
+        n2 = links2.count()
+        for i in range(n2):
+            href = links2.nth(i).get_attribute("href")
+            if href and "/used-cars-for-sale/listing" in href:
+                urls.add(("truecar", href.split("?")[0]))
     except Exception:
         pass
-    return [{"source": "cars.com", "listing_url": u} for u in urls]
-
-def collect_autotempest(urls, cfg):
+    return [{"source": s, "listing_url": u} for (s, u) in urls]def collect_autotempest(urls, cfg):
     out = []
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
@@ -84,3 +90,5 @@ def collect_autotempest(urls, cfg):
 
         browser.close()
     return out
+
+
