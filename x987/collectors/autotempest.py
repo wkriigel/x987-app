@@ -9,10 +9,14 @@ BLOCK_URL_SUBSTR = [
 def _install_blocking(context, cfg):
     nw = cfg.get("network", {}) or {}
     block_types = set()
-    if nw.get("block_images", True): block_types.add("image")
-    if nw.get("block_media", True): block_types.add("media")
-    if nw.get("block_fonts", True): block_types.add("font")
-    if nw.get("block_stylesheets", True): block_types.add("stylesheet")
+    if nw.get("block_images", True):
+    block_types.add("image")
+    if nw.get("block_media", True):
+    block_types.add("media")
+    if nw.get("block_fonts", True):
+    block_types.add("font")
+    if nw.get("block_stylesheets", True):
+    block_types.add("stylesheet")
     block_analytics = nw.get("block_analytics", True)
 
     def _maybe_block(route):
@@ -73,7 +77,9 @@ def _collect_from_page(page):
                 urls.add(("truecar", href.split("?")[0]))
     except Exception:
         pass
-    return [{"source": s, "listing_url": u} for (s, u) in urls]def collect_autotempest(urls, cfg):
+    return [{"source": s, "listing_url": u} for (s, u) in urls]
+
+def collect_autotempest(urls, cfg):
     out = []
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
@@ -90,6 +96,9 @@ def _collect_from_page(page):
 
         browser.close()
     return out
+
+
+
 
 
 
