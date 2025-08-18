@@ -37,7 +37,7 @@ def parse(html: str) -> Dict[str, Any]:
         "year": _to_int(year) if year else None,
         "model": _cap(model),
         "trim": _cap(trim),
-        "transmission": (("Automatic" if (trans -and "tiptronic" -in ($trans = trans.ToLower())) else _norm_trans(trans))),
+        "transmission": _norm_trans(trans),
         "vin": vin,
         "location": loc,
     }
@@ -91,6 +91,8 @@ def scrape_truecar(urls, cfg):
                 continue
         browser.close()
     return items
+
+
 
 
 
